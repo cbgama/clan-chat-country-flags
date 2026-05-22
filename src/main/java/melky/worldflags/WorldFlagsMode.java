@@ -31,20 +31,20 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.runelite.api.ScriptID;
-import net.runelite.api.widgets.WidgetInfo;
+import net.runelite.api.gameval.InterfaceID;
 
 @Getter
 @RequiredArgsConstructor
 public enum WorldFlagsMode
 {
-	CHAT_CHANNEL(ScriptID.FRIENDS_CHAT_CHANNEL_REBUILD, WidgetInfo.FRIENDS_CHAT_LIST, 1, "^W[0-9]{1,3}\\b", "W"),
-	CLAN_CHANNEL(4397, WidgetInfo.CLAN_MEMBER_LIST, 1, "^W[0-9]{1,3}\\b", "W"),
-	GUEST_CHANNEL(4399, WidgetInfo.CLAN_GUEST_MEMBER_LIST, 1, "^W[0-9]{1,3}\\b", "W"),
-	FRIENDS(ScriptID.FRIENDS_UPDATE, WidgetInfo.FRIEND_LIST_NAMES_CONTAINER, 2, "^World\\s[0-9]{1,3}\\b", "World "),
+	CHAT_CHANNEL(ScriptID.FRIENDS_CHAT_CHANNEL_REBUILD, InterfaceID.ChatchannelCurrent.LIST, 1, "^W[0-9]{1,3}\\b", "W"),
+	CLAN_CHANNEL(4397, InterfaceID.ClansSidepanel.PLAYERLIST, 1, "^W[0-9]{1,3}\\b", "W"),
+	GUEST_CHANNEL(4399, InterfaceID.ClansGuestSidepanel.PLAYERLIST, 1, "^W[0-9]{1,3}\\b", "W"),
+	FRIENDS(ScriptID.FRIENDS_UPDATE, InterfaceID.Friends.LIST, 2, "^World\\s[0-9]{1,3}\\b", "World "),
 	;
 
 	private final int scriptID;
-	private final WidgetInfo containerWidget;
+	private final int containerWidgetId;
 	private final int widgetStartPosition;
 	private final String worldMatchRegex;
 	private final String worldReplaceRegex;

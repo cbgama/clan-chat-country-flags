@@ -174,7 +174,7 @@ public class WorldFlagsPlugin extends Plugin
 
 	private void toggleWorldsToFlags(WorldFlagsMode flagMode, boolean forceDisable)
 	{
-		Widget containerWidget = client.getWidget(flagMode.getContainerWidget());
+		Widget containerWidget = client.getWidget(flagMode.getContainerWidgetId());
 		if (containerWidget == null || containerWidget.getChildren() == null)
 		{
 			return;
