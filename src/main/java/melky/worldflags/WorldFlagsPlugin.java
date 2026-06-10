@@ -45,6 +45,7 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.Text;
 import net.runelite.http.api.worlds.World;
+import net.runelite.http.api.worlds.WorldRegion;
 import net.runelite.http.api.worlds.WorldResult;
 
 @Slf4j
@@ -159,9 +160,20 @@ public class WorldFlagsPlugin extends Plugin
 			final WorldRegionFlag worldRegion = worldRegions[i];
 
 			final BufferedImage image = worldRegion.loadImage();
+			if (image == null)
+			{
+				log.warn("Region icon for {} could not be loaded", worldRegion.name());
+				continue;
+			}
 			final IndexedSprite sprite = ImageUtil.getImageIndexedSprite(image, client);
+			if (sprite == null)
+			{
+				log.warn("IndexedSprite conversion failed for {}", worldRegion.name());
+				continue;
+			}
 			newModIcons[modIconsStart + i] = sprite;
 		}
+		log.debug("modIconsStart={}", modIconsStart);
 
 		log.debug("Loaded region icons");
 		client.setModIcons(newModIcons);
@@ -230,10 +242,17 @@ public class WorldFlagsPlugin extends Plugin
 				continue;
 			}
 
-			final int worldRegionId = targetPlayerWorld.getLocation(); // 0 - us, 1 - gb, 3 - au, 7 - de
-			final int regionModIconId = WorldRegionFlag.getByRegionId(worldRegionId).ordinal() + modIconsStart;
+			final WorldRegion worldRegion = targetPlayerWorld.getRegion();
+			final WorldRegionFlag region = WorldRegionFlag.getByRegion(worldRegion);
 
-			listWidget.setText(worldString + " <img=" + (regionModIconId) + ">");
+			if (region == null)
+			{
+				continue;
+			}
+
+			final int regionModIconId = region.ordinal() + modIconsStart;
+
+			listWidget.setText(worldString + " <img=" + regionModIconId + ">");
 		}
 	}
 

@@ -28,42 +28,49 @@ import com.google.common.collect.ImmutableMap;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 import net.runelite.client.util.ImageUtil;
+import net.runelite.http.api.worlds.WorldRegion;
 
 enum WorldRegionFlag
 {
 	// Follow ISO 3166-1 alpha-2 for country codes
-	FLAG_US(0),
-	FLAG_GB(1),
-	FLAG_AU(3),
-	FLAG_DE(7);
+	FLAG_US(WorldRegion.UNITED_STATES_OF_AMERICA),
+	FLAG_GB(WorldRegion.UNITED_KINGDOM),
+	FLAG_AU(WorldRegion.AUSTRALIA),
+	FLAG_BR(WorldRegion.BRAZIL),
+	FLAG_DE(WorldRegion.GERMANY),
+	FLAG_JP(WorldRegion.JAPAN),
+	FLAG_SG(WorldRegion.SINGAPORE),
+	FLAG_ZA(WorldRegion.SOUTH_AFRICA);
 
-	private static final Map<Integer, WorldRegionFlag> worldRegionMap;
+	private static final Map<WorldRegion, WorldRegionFlag> worldRegionMap;
 
-	private final int regionId;
+	private final WorldRegion region;
 
 	static
 	{
-		ImmutableMap.Builder<Integer, WorldRegionFlag> builder = new ImmutableMap.Builder<>();
+		ImmutableMap.Builder<WorldRegion, WorldRegionFlag> builder = new ImmutableMap.Builder<>();
 
 		for (final WorldRegionFlag worldRegion : values())
 		{
-			builder.put(worldRegion.regionId, worldRegion);
+			builder.put(worldRegion.region, worldRegion);
 		}
 		worldRegionMap = builder.build();
 	}
 
-	WorldRegionFlag(int regionId)
+	WorldRegionFlag(WorldRegion region)
 	{
-		this.regionId = regionId;
+		this.region = region;
 	}
 
 	BufferedImage loadImage()
 	{
-		return ImageUtil.loadImageResource(getClass(), "/" + this.name().toLowerCase() + ".png");
+		final String resourceName = this.name().toLowerCase() + ".png";
+		// Load resources from this plugin package only
+		return ImageUtil.loadImageResource(getClass(), resourceName);
 	}
 
-	static WorldRegionFlag getByRegionId(int regionId)
+	static WorldRegionFlag getByRegion(WorldRegion region)
 	{
-		return worldRegionMap.get(regionId);
+		return worldRegionMap.get(region);
 	}
 }
