@@ -158,24 +158,11 @@ public class WorldFlagsPlugin extends Plugin
 		for (int i = 0; i < worldRegions.length; i++)
 		{
 			final WorldRegionFlag worldRegion = worldRegions[i];
-
 			final BufferedImage image = worldRegion.loadImage();
-			if (image == null)
-			{
-				log.warn("Region icon for {} could not be loaded", worldRegion.name());
-				continue;
-			}
 			final IndexedSprite sprite = ImageUtil.getImageIndexedSprite(image, client);
-			if (sprite == null)
-			{
-				log.warn("IndexedSprite conversion failed for {}", worldRegion.name());
-				continue;
-			}
 			newModIcons[modIconsStart + i] = sprite;
 		}
-		log.debug("modIconsStart={}", modIconsStart);
 
-		log.debug("Loaded region icons");
 		client.setModIcons(newModIcons);
 	}
 
