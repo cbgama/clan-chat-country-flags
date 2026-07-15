@@ -64,9 +64,9 @@ enum WorldRegionFlag
 
 	BufferedImage loadImage()
 	{
-		final String resourceName = this.name().toLowerCase() + ".png";
-		// Load resources from this plugin package only
-		return ImageUtil.loadImageResource(getClass(), resourceName);
+		final String resourceName = "/" + this.name().toLowerCase() + ".png";
+		// Load resources from the root of classpath
+		return ImageUtil.loadImageResource(WorldRegionFlag.class, resourceName);
 	}
 
 	static WorldRegionFlag getByRegion(WorldRegion region)
